@@ -51,9 +51,10 @@ def build_silver(bronze_df: pl.DataFrame) -> pl.DataFrame:
     
     return df
 
-
-if __name__ == "__main__":
-    df = build_silver()
-
 def write_silver_partitioned(silver: pl.DataFrame) -> None:
-    raise NotImplementedError("Завдання 3: запишіть партиціонований silver за event_type")
+    #raise NotImplementedError("Завдання 3: запишіть партиціонований silver за event_type")
+    Path(config.SILVER_PARTITIONED_DIR).mkdir(parents=True, exist_ok=True)
+    silver.write_parquet(
+        config.SILVER_PARTITIONED_DIR,
+        partition_by="event_type"
+    )
