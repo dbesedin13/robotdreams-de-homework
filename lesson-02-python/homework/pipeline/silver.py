@@ -21,10 +21,39 @@ import polars as pl
 
 from . import config
 
+from pathlib import Path
 
-def build_silver(bronze: pl.DataFrame) -> pl.DataFrame:
-    raise NotImplementedError("Завдання 2: реалізуйте silver згідно з CONTRACTS.md")
 
+def build_silver(bronze_df: pl.DataFrame) -> pl.DataFrame:
+    #raise NotImplementedError("Завдання 2: реалізуйте silver згідно з CONTRACTS.md")
+    df = (
+        bronze_df
+        .filter(
+            pl.col("event_type").is_in(config.TARGET_EVENT_TYPES)
+        )
+        .filter(
+            pl.col("repo_name").is_not_null()
+        )
+        .filter(
+            pl.col("event_id").is_not_null()
+        )
+        .filter(
+            pl.col("created_at").is_not_null()
+        )
+        .filter(
+            pl.col("repo_name") != ""
+        )
+        .unique(subset="event_id")
+    )
+
+    Path(config.SILVER_FILE).parent.mkdir(parents=True, exist_ok=True)
+    df.write_parquet(config.SILVER_FILE)
+    
+    return df
+
+
+if __name__ == "__main__":
+    df = build_silver()
 
 def write_silver_partitioned(silver: pl.DataFrame) -> None:
     raise NotImplementedError("Завдання 3: запишіть партиціонований silver за event_type")
