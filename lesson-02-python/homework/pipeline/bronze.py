@@ -13,13 +13,11 @@ TODO (Завдання 1): реалізуйте build_bronze().
 """
 
 from __future__ import annotations
+
 import polars as pl
+
 from . import config
-from pathlib import Path
 
-
-#def build_bronze() -> pl.DataFrame:
-#    raise NotImplementedError("Завдання 1: реалізуйте bronze згідно з CONTRACTS.md")
 
 def build_bronze() -> pl.DataFrame:
 
@@ -43,11 +41,6 @@ def build_bronze() -> pl.DataFrame:
 
         .collect()
     )
-    Path(config.BRONZE_FILE).parent.mkdir(parents=True, exist_ok=True)
-    df.write_parquet(config.BRONZE_FILE)
+    df.write_parquet(config.BRONZE_FILE,mkdir=True)
     
     return df
-
-
-if __name__ == "__main__":
-    df = build_bronze()

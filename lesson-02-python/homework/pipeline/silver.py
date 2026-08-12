@@ -25,7 +25,6 @@ from pathlib import Path
 
 
 def build_silver(bronze_df: pl.DataFrame) -> pl.DataFrame:
-    #raise NotImplementedError("Завдання 2: реалізуйте silver згідно з CONTRACTS.md")
     df = (
         bronze_df
         .filter(
@@ -52,7 +51,6 @@ def build_silver(bronze_df: pl.DataFrame) -> pl.DataFrame:
     return df
 
 def write_silver_partitioned(silver: pl.DataFrame) -> None:
-    #raise NotImplementedError("Завдання 3: запишіть партиціонований silver за event_type")
     Path(config.SILVER_PARTITIONED_DIR).mkdir(parents=True, exist_ok=True)
     silver.write_parquet(
         config.SILVER_PARTITIONED_DIR,
