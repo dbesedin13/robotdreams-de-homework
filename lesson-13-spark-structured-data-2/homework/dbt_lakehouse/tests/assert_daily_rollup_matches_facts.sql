@@ -1,5 +1,5 @@
--- Тест: sum(fact_repo_activity_daily.commits) = count(*) з fact_commit.
--- Специфікація: ../../SPEC.md → «Тести». Тест падає, якщо запит поверне рядки.
--- TODO: замініть заглушку (зараз тест проходить вхолосту).
-select 1 as _placeholder
-where false
+select
+    sum(commits) as daily_commits,
+    (select count(*) from {{ ref('fact_commit') }}) as fact_commits
+from {{ ref('fact_repo_activity_daily') }}
+having sum(commits) != (select count(*) from {{ ref('fact_commit') }})

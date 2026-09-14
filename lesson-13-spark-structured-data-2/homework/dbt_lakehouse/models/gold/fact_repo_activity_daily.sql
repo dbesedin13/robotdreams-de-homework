@@ -9,7 +9,7 @@ with commit_daily as (
         ) as date_id,
 
         count(*) as commits,
-        count(distinct pushed_by) as distinct_committers,
+        count(distinct author_email) as distinct_committers,
         cast(0 as bigint) as prs_opened,
         cast(0 as bigint) as prs_merged,
         cast(0 as bigint) as issues_opened,

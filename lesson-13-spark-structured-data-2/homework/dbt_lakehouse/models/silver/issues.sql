@@ -94,7 +94,7 @@ select
     cast(
         (
             unix_timestamp(
-                coalesce(closed_at, event_at)
+                (closed_at)
             )
             - unix_timestamp(opened_at)
         ) / 3600.0
